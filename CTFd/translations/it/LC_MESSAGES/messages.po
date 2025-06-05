@@ -287,8 +287,8 @@ msgid "Search for matching users"
 msgstr "Cerca gli utenti corrispondenti"
 
 #: CTFd/themes/core-beta/templates/base.html:49
-msgid "Powered by CTFd"
-msgstr "Powered by CTFd"
+msgid "Powered by Astraea"
+msgstr "Powered by Astraea"
 
 #: CTFd/themes/core-beta/templates/challenge.html:11
 #: CTFd/themes/core-beta/templates/teams/private.html:375

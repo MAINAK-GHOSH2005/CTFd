@@ -287,7 +287,7 @@ msgid "Search for matching users"
 msgstr "Sök efter matchande användare"
 
 #: CTFd/themes/core-beta/templates/base.html:49
-msgid "Powered by CTFd"
+msgid "Powered by Astraea"
 msgstr "Drivs av"
 
 #: CTFd/themes/core-beta/templates/challenge.html:11

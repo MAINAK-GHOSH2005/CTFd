@@ -323,7 +323,7 @@ msgid "Search for matching users"
 msgstr ""
 
 #: CTFd/themes/core-beta/templates/base.html:53
-msgid "Powered by CTFd"
+msgid "Powered by Astraea"
 msgstr ""
 
 #: CTFd/themes/core-beta/templates/challenge.html:11

@@ -287,7 +287,7 @@ msgid "Search for matching users"
 msgstr "Tìm kiếm người dùng"
 
 #: CTFd/themes/core-beta/templates/base.html:49
-msgid "Powered by CTFd"
+msgid "Powered by Astraea"
 msgstr "Cung cấp bởi CTFd"
 
 #: CTFd/themes/core-beta/templates/challenge.html:11

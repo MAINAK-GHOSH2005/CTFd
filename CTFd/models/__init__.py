@@ -11,7 +11,7 @@ from CTFd.cache import cache
 
 db = SQLAlchemy()
 ma = Marshmallow()
-
+    
 
 def get_class_by_tablename(tablename):
     """Return class reference mapped to table.

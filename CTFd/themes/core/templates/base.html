@@ -12,6 +12,9 @@
 	{% endblock %}
 
 	{{ Plugins.styles }}
+
+	 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 	<script type="text/javascript">
 		var init = {
 			'urlRoot': "{{ request.script_root }}",
@@ -34,6 +37,104 @@
 
 	<main role="main">
 		{% block content %}
+		<div class="row justify-content-center">
+			<div class="col-md-10 col-lg-8 py-4">
+				<img class="w-100 mx-auto d-block" style="max-width: 320px; padding: 40px 0 20px 0;" src="/files/8da8571a95c3ccc8fd2e1eb1116088e0/logo.png" />
+				<h3 class="text-center mb-2">
+					A cool CTF platform from <a href="https://astraeasolutions.com">astraeasolutions.com</a>
+				</h3>
+				<div class="text-center mb-3">
+					<span>Follow us on social media:</span><br>
+					<a href="https://twitter.com/ctfdio" class="me-2"><i class="fab fa-twitter fa-2x"></i></a>
+					<a href="https://facebook.com/ctfdio" class="me-2"><i class="fab fa-facebook fa-2x"></i></a>
+					<a href="https://github.com/ctfd"><i class="fab fa-github fa-2x"></i></a>
+				</div>
+				<div class="text-center mb-4">
+					<a href="admin" class="btn btn-primary btn-lg">Click here to login and setup your CTF</a>
+				</div>
+
+				<div class="row text-center mb-4 g-3">
+					<div class="col-12 col-sm-6 col-md-3">
+						<div class="card h-100 shadow-sm">
+							<div class="card-body">
+								<h6 class="card-title text-muted">Total Challenges</h6>
+								<p class="card-text display-6 fw-bold text-nowrap" style="white-space:nowrap;">72</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-3">
+						<div class="card h-100 shadow-sm">
+							<div class="card-body">
+								<h6 class="card-title text-muted">Total users</h6>
+								<p class="card-text display-6 fw-bold text-nowrap" style="white-space:nowrap;">23,742</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-3">
+						<div class="card h-100 shadow-sm">
+							<div class="card-body">
+								<h6 class="card-title text-muted">Total Solves</h6>
+								<p class="card-text display-6 fw-bold text-nowrap" style="white-space:nowrap;">83,761</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-3">
+						<div class="card h-100 shadow-sm">
+							<div class="card-body">
+								<h6 class="card-title text-muted">Monthly Solves</h6>
+								<p class="card-text display-6 fw-bold text-nowrap" style="white-space:nowrap;">1,567</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="card mb-4 shadow-sm">
+					<div class="card-header bg-primary text-white">
+						<strong>Category-wise Challenges</strong>
+					</div>
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item"><a href="#">8 Challenges <strong>Beginner Tutorial</strong></a></li>
+						<li class="list-group-item"><a href="#">9 Challenges <strong>Cryptography</strong></a></li>
+						<li class="list-group-item"><a href="#">11 Challenges <strong>Miscellaneous</strong></a></li>
+						<li class="list-group-item"><a href="#">8 Challenges <strong>Networking</strong></a></li>
+						<li class="list-group-item"><a href="#">13 Challenges <strong>Pwnable</strong></a></li>
+						<li class="list-group-item"><a href="#">9 Challenges <strong>Reversing</strong></a></li>
+						<li class="list-group-item"><a href="#">14 Challenges <strong>Web</strong></a></li>
+					</ul>
+				</div>
+
+				<div class="accordion mb-5" id="ctfAccordion">
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="headingReady">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseReady" aria-expanded="true" aria-controls="collapseReady">
+								READY TO HACK?
+							</button>
+						</h2>
+						<div id="collapseReady" class="accordion-collapse collapse show" aria-labelledby="headingReady" data-bs-parent="#ctfAccordion">
+							<div class="accordion-body">
+								Capture The Flag (CTF) competitions challenge you to solve problems and earn flags.<br>
+								To solve a challenge, you need to hack your way to the flag.<br>
+								Most competitions are only online for a few days. The 247CTF is a continuous learning environment.
+							</div>
+						</div>
+					</div>
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="headingLearn">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLearn" aria-expanded="false" aria-controls="collapseLearn">
+								LEARN BY DOING!
+							</button>
+						</h2>
+						<div id="collapseLearn" class="accordion-collapse collapse" aria-labelledby="headingLearn" data-bs-parent="#ctfAccordion">
+							<div class="accordion-body">
+								Challenges are directly accessible from the platform; no VPN or setup required.<br>
+								Rather than sharing, you control your own challenges - start, stop and restart at any time.<br>
+								New challenges are added monthly, to enable you to continuously learn, hack and improve.
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		{% endblock %}
 	</main>
 
@@ -59,5 +160,7 @@
 	{{ Plugins.scripts }}
 
 	{{ Configs.theme_footer }}
+	
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

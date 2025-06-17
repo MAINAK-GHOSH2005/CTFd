@@ -19,19 +19,23 @@
 	{% if standings %}
 	<div id="scoreboard" class="row">
 		<div class="col-md-12">
-			<table class="table table-striped">
-				<thead>
+			<table class="table table-striped table-hover align-middle text-center">
+				<thead class="table-dark">
 					<tr>
-						<td scope="col" width="10px"><b>Place</b></td>
-						<td scope="col"><b>{{ get_mode_as_word(capitalize=True) }}</b></td>
-						<td scope="col"><b>Score</b></td>
+						<th scope="col" width="10%">Rank</th>
+						<th scope="col">Team/Individual Name</th>
+						<th scope="col">Points</th>
+						<th scope="col">No. of Prob Solved</th>
+						<th scope="col">Institute Name</th>
 					</tr>
 				</thead>
 				<tbody>
 				{% for standing in standings %}
 					<tr>
-						<th scope="row" class="text-center">{{ loop.index }}</th>
-						<td>
+						<th scope="row">
+							{% if loop.index == 1 %}🥇{% elif loop.index == 2 %}🥈{% elif loop.index == 3 %}🥉{% else %}{{ loop.index }}{% endif %}
+						</th>
+						<td class="text-start">
 							<a href="{{ generate_account_url(standing.account_id) }}">
 								{{ standing.name | truncate(50) }}
 
@@ -49,6 +53,8 @@
 							</a>
 						</td>
 						<td>{{ standing.score }}</td>
+						<td>{{ standing.num_solved if standing.num_solved is defined else '—' }}</td>
+						<td>{{ standing.institute if standing.institute is defined else '—' }}</td>
 					</tr>
 				{% endfor %}
 				</tbody>

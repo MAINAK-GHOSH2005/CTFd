@@ -1,0 +1,7 @@
+{
+    "name": "About Page Plugin",
+    "route": "/about",
+    "description": "A plugin that adds an about page to CTFd",
+    "version": "1.0.0",
+    "author": "Astraea"
+} 

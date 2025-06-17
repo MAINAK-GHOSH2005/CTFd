@@ -16,58 +16,388 @@
       </div>
     </div>
 
-    <div 
-      x-data="ChallengeBoard" 
-      @load-challenges.window="loadChallenges()" 
-      @load-challenge.window="loadChallenge($event.detail)"
-    >
-      <div
-          x-ref="challengeWindow" id="challenge-window" class="modal fade" tabindex="-1" role="dialog" x-data=""
-          x-html="$store.challenge.data.view"
-      ></div>
-
-      <div x-show="!loaded">
-        <div class="min-vh-50 d-flex align-items-center">
-          <div class="text-center w-100">
-            <i class="fas fa-circle-notch fa-spin fa-3x fa-fw spinner"></i>
+    <!-- 4x4 Challenge Categories Matrix -->
+    <div class="challenges-matrix mt-4">
+      <!-- Row 1 -->
+      <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+          <div class="category-card" data-category="all-challenges">
+            <div class="card-icon">
+              <i class="fas fa-trophy"></i>
+            </div>
+            <h5 class="card-title">All Challenges</h5>
+            <p class="card-description">Complete overview of all available challenges</p>
+            <div class="card-stats">
+              <span class="badge badge-primary">0/0</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+          <div class="category-card" data-category="web-security">
+            <div class="card-icon">
+              <i class="fas fa-globe"></i>
+            </div>
+            <h5 class="card-title">Web Security</h5>
+            <p class="card-description">Web application vulnerabilities and exploits</p>
+            <div class="card-stats">
+              <span class="badge badge-primary">0/0</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+          <div class="category-card" data-category="reverse-engineering">
+            <div class="card-icon">
+              <i class="fas fa-bug"></i>
+            </div>
+            <h5 class="card-title">Reverse Engineering</h5>
+            <p class="card-description">Malware analysis and reverse engineering</p>
+            <div class="card-stats">
+              <span class="badge badge-primary">0/0</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+          <div class="category-card" data-category="general-information">
+            <div class="card-icon">
+              <i class="fas fa-info-circle"></i>
+            </div>
+            <h5 class="card-title">General Information</h5>
+            <p class="card-description">General cybersecurity knowledge and concepts</p>
+            <div class="card-stats">
+              <span class="badge badge-primary">0/0</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div x-show="loaded">
-        <template x-for="(category, idx) in getCategories()" :key="idx">
-          <div class="pt-5">
-            <div class="category-header mb-3">
-              <h3 x-text="category"></h3>
+      <!-- Row 2 -->
+      <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+          <div class="category-card" data-category="cryptography">
+            <div class="card-icon">
+              <i class="fas fa-key"></i>
             </div>
-
-            <div class="category-challenges d-flex flex-column">
-              <div class="challenges-row row">
-                <template x-for="(c, idx) in getChallenges(category)" :key="c.id">
-                  <div class="col-sm-6 col-md-4 col-lg-3 my-3">
-                    <button
-                        class="challenge-button btn btn-dark w-100 h-100"
-                        :class="[
-                          c.solved_by_me ? 'challenge-solved' : '',
-                          ...c.tags.map((tag) => `tag-${tag.value.replace(/ /g, '-')}`),
-                        ];"
-                        :value="c.id" @click="loadChallenge(c.id)"
-                    >
-
-                      <div class="challenge-inner my-3">
-                        <p x-text="c.name"></p>
-                        <span x-text="c.value"></span>
-                      </div>
-                    </button>
-                  </div>
-                </template>
-              </div>
+            <h5 class="card-title">Cryptography</h5>
+            <p class="card-description">Encryption, decryption, and cryptographic attacks</p>
+            <div class="card-stats">
+              <span class="badge badge-primary">0/0</span>
             </div>
           </div>
-        </template>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+          <div class="category-card" data-category="exploitation">
+            <div class="card-icon">
+              <i class="fas fa-crosshairs"></i>
+            </div>
+            <h5 class="card-title">Exploitation</h5>
+            <p class="card-description">System exploitation and privilege escalation</p>
+            <div class="card-stats">
+              <span class="badge badge-primary">0/0</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+          <div class="category-card" data-category="digital-forensics">
+            <div class="card-icon">
+              <i class="fas fa-search"></i>
+            </div>
+            <h5 class="card-title">Digital Forensics</h5>
+            <p class="card-description">Evidence collection and digital investigation</p>
+            <div class="card-stats">
+              <span class="badge badge-primary">0/0</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+          <div class="category-card" data-category="network-security">
+            <div class="card-icon">
+              <i class="fas fa-network-wired"></i>
+            </div>
+            <h5 class="card-title">Network Security</h5>
+            <p class="card-description">Network protocols and security analysis</p>
+            <div class="card-stats">
+              <span class="badge badge-primary">0/0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+          <div class="category-card" data-category="osint">
+            <div class="card-icon">
+              <i class="fas fa-eye"></i>
+            </div>
+            <h5 class="card-title">OSINT</h5>
+            <p class="card-description">Open Source Cyber Intelligence gathering</p>
+            <div class="card-stats">
+              <span class="badge badge-primary">0/0</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+          <div class="category-card" data-category="machines">
+            <div class="card-icon">
+              <i class="fas fa-server"></i>
+            </div>
+            <h5 class="card-title">Machines</h5>
+            <p class="card-description">Virtual machine challenges and CTF boxes</p>
+            <div class="card-stats">
+              <span class="badge badge-primary">0/0</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+          <div class="category-card" data-category="secure-coding">
+            <div class="card-icon">
+              <i class="fas fa-code"></i>
+            </div>
+            <h5 class="card-title">Secure Coding</h5>
+            <p class="card-description">Secure programming practices and code review</p>
+            <div class="card-stats">
+              <span class="badge badge-primary">0/0</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+          <div class="category-card" data-category="bash">
+            <div class="card-icon">
+              <i class="fas fa-terminal"></i>
+            </div>
+            <h5 class="card-title">Bash</h5>
+            <p class="card-description">Command line and shell scripting challenges</p>
+            <div class="card-stats">
+              <span class="badge badge-primary">0/0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+          <div class="category-card" data-category="mobile-security">
+            <div class="card-icon">
+              <i class="fas fa-mobile-alt"></i>
+            </div>
+            <h5 class="card-title">Mobile Security</h5>
+            <p class="card-description">Mobile application security and analysis</p>
+            <div class="card-stats">
+              <span class="badge badge-primary">0/0</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Empty slots for future categories -->
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+          <div class="category-card empty-card">
+            <div class="card-icon">
+              <i class="fas fa-plus"></i>
+            </div>
+            <h5 class="card-title">Coming Soon</h5>
+            <p class="card-description">New category will be added here</p>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+          <div class="category-card empty-card">
+            <div class="card-icon">
+              <i class="fas fa-plus"></i>
+            </div>
+            <h5 class="card-title">Coming Soon</h5>
+            <p class="card-description">New category will be added here</p>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+          <div class="category-card empty-card">
+            <div class="card-icon">
+              <i class="fas fa-plus"></i>
+            </div>
+            <h5 class="card-title">Coming Soon</h5>
+            <p class="card-description">New category will be added here</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress Bar Section -->
+    <div class="progress-section">
+      <div class="row">
+        <div class="col-12">
+          <h5>Overall Progress</h5>
+          <div class="progress mb-3" style="height: 25px;">
+            <div 
+              class="progress-bar progress-bar-striped progress-bar-animated" 
+              role="progressbar" 
+              style="width: 0%"
+              aria-valuenow="0" 
+              aria-valuemin="0" 
+              aria-valuemax="100"
+            >
+              <span>0/0 challenges (0%)</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
+  <style>
+    .challenges-matrix {
+      padding: 20px 0;
+    }
+    
+    .category-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 12px;
+      padding: 25px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: white;
+      height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .category-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    .category-card[data-category="web-security"] {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+    }
+    
+    .category-card[data-category="reverse-engineering"] {
+      background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+    }
+    
+    .category-card[data-category="cryptography"] {
+      background: linear-gradient(135deg, #45b7d1 0%, #96c93d 100%);
+    }
+    
+    .category-card[data-category="exploitation"] {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+    
+    .category-card[data-category="digital-forensics"] {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+    
+    .category-card[data-category="network-security"] {
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
+    
+    .category-card[data-category="osint"] {
+      background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    }
+    
+    .category-card[data-category="machines"] {
+      background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      color: #333;
+    }
+    
+    .category-card[data-category="secure-coding"] {
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      color: #333;
+    }
+    
+    .category-card[data-category="bash"] {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .category-card[data-category="mobile-security"] {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+    
+    .empty-card {
+      background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%);
+      color: #666;
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    
+    .empty-card:hover {
+      transform: none;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+    
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .card-description {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-bottom: 15px;
+      flex-grow: 1;
+    }
+    
+    .card-stats .badge {
+      font-size: 0.8rem;
+      padding: 5px 10px;
+    }
+    
+    .progress-section {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 30px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .category-card {
+        height: 180px;
+        padding: 20px 15px;
+      }
+      
+      .card-icon {
+        font-size: 2rem;
+        margin-bottom: 10px;
+      }
+      
+      .card-title {
+        font-size: 1.1rem;
+      }
+      
+      .card-description {
+        font-size: 0.8rem;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .challenges-matrix {
+        padding: 10px 0;
+      }
+      
+      .category-card {
+        height: 160px;
+        padding: 15px 10px;
+      }
+    }
+  </style>
 {% endblock %}
 
 {% block scripts %}

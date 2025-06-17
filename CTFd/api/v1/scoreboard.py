@@ -19,7 +19,6 @@ scoreboard_namespace = Namespace(
     "scoreboard", description="Endpoint to retrieve scores"
 )
 
-
 @scoreboard_namespace.route("")
 class ScoreboardList(Resource):
     @check_account_visibility
@@ -42,6 +41,7 @@ class ScoreboardList(Resource):
                         Users.hidden,
                         Users.banned,
                         Users.bracket_id,
+                        Users.affiliation,  # Add affiliation field
                         Brackets.name.label("bracket_name"),
                     ]
                 )
@@ -59,6 +59,7 @@ class ScoreboardList(Resource):
                         "score": 0,
                         "bracket_id": u.bracket_id,
                         "bracket_name": u.bracket_name,
+                        "affiliation": getattr(u, 'affiliation', None),  # Add affiliation
                     }
 
             # Get user_standings as a dict so that we can more quickly get member scores
@@ -77,6 +78,7 @@ class ScoreboardList(Resource):
                 "score": int(x.score),
                 "bracket_id": x.bracket_id,
                 "bracket_name": x.bracket_name,
+                "affiliation": getattr(x, 'affiliation', None),  # Add affiliation to main entry
             }
 
             if mode == TEAMS_MODE:
@@ -84,7 +86,6 @@ class ScoreboardList(Resource):
 
             response.append(entry)
         return {"success": True, "data": response}
-
 
 @scoreboard_namespace.route("/top/<int:count>")
 @scoreboard_namespace.param("count", "How many top teams to return")

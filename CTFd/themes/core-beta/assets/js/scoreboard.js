@@ -1,7 +1,7 @@
 import Alpine from "alpinejs";
 import CTFd from "./index";
-import { getOption } from "./utils/graphs/echarts/scoreboard";
 import { embed } from "./utils/graphs/echarts";
+import { getOption } from "./utils/graphs/echarts/scoreboard";
 
 window.Alpine = Alpine;
 window.CTFd = CTFd;

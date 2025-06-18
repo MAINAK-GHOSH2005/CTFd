@@ -375,7 +375,7 @@ def register():
         if is_teams_mode():
             return redirect(url_for("teams.private"))
 
-        return redirect(url_for("challenges.listing"))
+        return redirect(url_for("views.static_html", route="/"))
     else:
         return render_template("register.html", errors=errors)
 
@@ -412,7 +412,7 @@ def login():
                     request.args.get("next")
                 ):
                     return redirect(request.args.get("next"))
-                return redirect(url_for("challenges.listing"))
+                return redirect(url_for("views.static_html", route="/"))
 
             else:
                 # This user exists but the password is wrong
@@ -582,7 +582,7 @@ def oauth_redirect():
 
             login_user(user)
 
-            return redirect(url_for("challenges.listing"))
+            return redirect(url_for("views.static_html", route="/"))
         else:
             log("logins", "[{date}] {ip} - OAuth token retrieval failure")
             error_for(endpoint="auth.login", message="OAuth token retrieval failure.")

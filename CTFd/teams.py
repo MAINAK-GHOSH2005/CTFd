@@ -118,7 +118,7 @@ def invite():
         clear_user_session(user_id=user.id)
         clear_team_session(team_id=team.id)
 
-        return redirect(url_for("challenges.listing"))
+        return redirect(url_for("views.static_html", route="/"))
 
 
 @teams.route("/teams/join", methods=["GET", "POST"])
@@ -179,7 +179,7 @@ def join():
             clear_user_session(user_id=user.id)
             clear_team_session(team_id=team.id)
 
-            return redirect(url_for("challenges.listing"))
+            return redirect(url_for("views.static_html", route="/"))
         else:
             errors.append("That information is incorrect")
             return render_template("teams/join_team.html", infos=infos, errors=errors)
@@ -330,7 +330,7 @@ def new():
         clear_user_session(user_id=user.id)
         clear_team_session(team_id=team.id)
 
-        return redirect(url_for("challenges.listing"))
+        return redirect(url_for("views.static_html", route="/"))
 
 
 @teams.route("/team")

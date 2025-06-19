@@ -6,6 +6,17 @@ import { htmlEntities } from "@ctfdio/ctfd-js/utils/html";
 import CTFd from "../compat/CTFd";
 import nunjucks from "nunjucks";
 
+// Add function to handle target blank for external links
+function addTargetBlank(html) {
+  let dom = new DOMParser();
+  let view = dom.parseFromString(html, "text/html");
+  let links = view.querySelectorAll('a[href*="://"]');
+  links.forEach(link => {
+    link.setAttribute("target", "_blank");
+  });
+  return view.documentElement.outerHTML;
+}
+
 function renderSubmissionResponse(response, cb) {
   const result = response.data;
 
@@ -111,7 +122,10 @@ $(() => {
                 );
                 challenge_data["script_root"] = CTFd.config.urlRoot;
 
-                $("#challenge-window").append(template.render(challenge_data));
+                // Add target blank to external links
+                let renderedTemplate = template.render(challenge_data);
+                renderedTemplate = addTargetBlank(renderedTemplate);
+                $("#challenge-window").append(renderedTemplate);
 
                 $(".nav-tabs a").click(function (event) {
                   event.preventDefault();
@@ -153,7 +167,13 @@ $(() => {
               },
             );
           },
-        );
+        ).fail(function(error) {
+          console.error("Error loading challenge:", error);
+          ezToast({
+            title: "Error",
+            body: "Failed to load challenge preview. Please try again.",
+          });
+        });
       },
     );
   });
@@ -170,7 +190,18 @@ $(() => {
         }).then(function (response) {
           if (response.success) {
             window.location = CTFd.config.urlRoot + "/admin/challenges";
+          } else {
+            ezToast({
+              title: "Error",
+              body: "Failed to delete challenge. Please try again.",
+            });
           }
+        }).catch(function(error) {
+          console.error("Error deleting challenge:", error);
+          ezToast({
+            title: "Error",
+            body: "Failed to delete challenge. Please try again.",
+          });
         });
       },
     });
@@ -194,7 +225,18 @@ $(() => {
           title: "Success",
           body: "Your challenge has been updated!",
         });
+      } else {
+        ezToast({
+          title: "Error",
+          body: "Failed to update challenge. Please try again.",
+        });
       }
+    }).catch(function(error) {
+      console.error("Error updating challenge:", error);
+      ezToast({
+        title: "Error",
+        body: "Failed to update challenge. Please try again.",
+      });
     });
   });
 });

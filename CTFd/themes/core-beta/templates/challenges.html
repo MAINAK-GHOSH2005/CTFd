@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 
 {% block content %}
@@ -64,8 +63,8 @@
                         class="challenge-button btn btn-dark w-100 h-100"
                         :class="[
                           c.solved_by_me ? 'challenge-solved' : '',
-                          ...c.tags.map((tag) => tag-${tag.value.replace(/ /g, '-')}),
-                        ];"
+                          ...c.tags.map((tag) => `tag-${tag.value.replace(/ /g, '-')}`),
+                        ]"
                         :value="c.id" @click="loadChallenge(c.id)"
                     >
 

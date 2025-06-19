@@ -15,8 +15,28 @@ CTFd._internal.challenge = {};
 let challenges = [];
 let solves = [];
 
+// Add function to handle target blank for external links
+function addTargetBlank(html) {
+  let dom = new DOMParser();
+  let view = dom.parseFromString(html, "text/html");
+  let links = view.querySelectorAll('a[href*="://"]');
+  links.forEach(link => {
+    link.setAttribute("target", "_blank");
+  });
+  return view.documentElement.outerHTML;
+}
+
 const loadChal = id => {
   const chal = $.grep(challenges, chal => chal.id == id)[0];
+
+  if (!chal) {
+    ezAlert({
+      title: "Challenge Not Found!",
+      body: "The requested challenge could not be found.",
+      button: "Got it!"
+    });
+    return;
+  }
 
   if (chal.type === "hidden") {
     ezAlert({
@@ -32,11 +52,19 @@ const loadChal = id => {
 
 const loadChalByName = name => {
   let idx = name.lastIndexOf("-");
+  if (idx < 0) {
+    console.error("Invalid challenge hash format");
+    return;
+  }
   let pieces = [name.slice(0, idx), name.slice(idx + 1)];
   let id = pieces[1];
 
   const chal = $.grep(challenges, chal => chal.id == id)[0];
-  displayChal(chal);
+  if (chal) {
+    displayChal(chal);
+  } else {
+    console.error("Challenge not found for hash:", name);
+  }
 };
 
 const displayChal = chal => {
@@ -55,8 +83,9 @@ const displayChal = chal => {
     // Call preRender function in plugin
     challenge.preRender();
 
-    // Build HTML from the Jinja response in API
-    $("#challenge-window").append(responses[0].data.view);
+    // Build HTML from the Jinja response in API and add target blank
+    let view = addTargetBlank(responses[0].data.view);
+    $("#challenge-window").append(view);
 
     $("#challenge-window #challenge-input").addClass("form-control");
     $("#challenge-window #challenge-submit").addClass(
@@ -64,23 +93,27 @@ const displayChal = chal => {
     );
 
     let modal = $("#challenge-window").find(".modal-dialog");
-    if (
-      window.init.theme_settings &&
-      window.init.theme_settings.challenge_window_size
-    ) {
-      switch (window.init.theme_settings.challenge_window_size) {
-        case "sm":
-          modal.addClass("modal-sm");
-          break;
-        case "lg":
-          modal.addClass("modal-lg");
-          break;
-        case "xl":
-          modal.addClass("modal-xl");
-          break;
-        default:
-          break;
+    try {
+      let size = window.init.theme_settings?.challenge_window_size;
+      if (size) {
+        switch (size) {
+          case "sm":
+            modal.addClass("modal-sm");
+            break;
+          case "lg":
+            modal.addClass("modal-lg");
+            break;
+          case "xl":
+            modal.addClass("modal-xl");
+            break;
+          default:
+            break;
+        }
       }
+    } catch (error) {
+      // Ignore errors with challenge window size
+      console.log("Error processing challenge_window_size");
+      console.log(error);
     }
 
     $(".challenge-solves").click(function(_event) {
@@ -134,6 +167,13 @@ const displayChal = chal => {
       window.location.href.split("#")[0] + `#${chal.name}-${chal.id}`
     );
     $("#challenge-window").modal();
+  }).catch(error => {
+    console.error("Error loading challenge:", error);
+    ezAlert({
+      title: "Error",
+      body: "Failed to load challenge. Please try again.",
+      button: "Got it!"
+    });
   });
 };
 
@@ -175,6 +215,15 @@ function renderSubmissionResponse(response) {
     setTimeout(function() {
       answer_input.removeClass("wrong");
     }, 3000);
+
+    // Highlight incorrect submission on challenge board
+    const chalButton = $(`button[value="${CTFd._internal.challenge.data.id}"]`);
+    if (chalButton.length) {
+      chalButton.addClass("incorrect-submission");
+      setTimeout(() => {
+        chalButton.removeClass("incorrect-submission");
+      }, 1000);
+    }
   } else if (result.status === "correct") {
     // Challenge Solved
     result_notification.addClass(
@@ -262,7 +311,7 @@ function getSolves(id) {
     for (let i = 0; i < data.length; i++) {
       const id = data[i].account_id;
       const name = data[i].name;
-      const date = dayjs(data[i].date).fromNow();
+      const date = dayjs(data[i].date).format("MMMM Do, h:mm:ss A");
       const account_url = data[i].account_url;
       box.append(
         '<tr><td><a href="{0}">{2}</td><td>{3}</td></tr>'.format(
@@ -288,32 +337,68 @@ function loadChals() {
 
     $challenges_board.empty();
 
-    for (let i = challenges.length - 1; i >= 0; i--) {
-      if ($.inArray(challenges[i].category, categories) == -1) {
-        const category = challenges[i].category;
-        categories.push(category);
-
-        const categoryid = category.replace(/ /g, "-").hashCode();
-        const categoryrow = $(
-          "" +
-            '<div id="{0}-row" class="pt-5">'.format(categoryid) +
-            '<div class="category-header col-md-12 mb-3">' +
-            "</div>" +
-            '<div class="category-challenges col-md-12">' +
-            '<div class="challenges-row col-md-12"></div>' +
-            "</div>" +
-            "</div>"
-        );
-        categoryrow
-          .find(".category-header")
-          .append($("<h3>" + category + "</h3>"));
-
-        $challenges_board.append(categoryrow);
+    // Sort categories if theme setting is available
+    try {
+      const f = window.init.theme_settings?.challenge_category_order;
+      if (f) {
+        const getSort = new Function(`return (${f})`);
+        const uniqueCategories = [...new Set(challenges.map(c => c.category))];
+        uniqueCategories.sort(getSort());
+        categories.push(...uniqueCategories);
+      } else {
+        // Default category collection
+        for (let i = challenges.length - 1; i >= 0; i--) {
+          if ($.inArray(challenges[i].category, categories) == -1) {
+            categories.push(challenges[i].category);
+          }
+        }
+      }
+    } catch (error) {
+      // Fallback to default category collection
+      console.log("Error running challenge_category_order function");
+      console.log(error);
+      for (let i = challenges.length - 1; i >= 0; i--) {
+        if ($.inArray(challenges[i].category, categories) == -1) {
+          categories.push(challenges[i].category);
+        }
       }
     }
 
-    for (let i = 0; i <= challenges.length - 1; i++) {
-      const chalinfo = challenges[i];
+    for (let i = 0; i < categories.length; i++) {
+      const category = categories[i];
+      const categoryid = category.replace(/ /g, "-").hashCode();
+      const categoryrow = $(
+        "" +
+          '<div id="{0}-row" class="pt-5">'.format(categoryid) +
+          '<div class="category-header col-md-12 mb-3">' +
+          "</div>" +
+          '<div class="category-challenges col-md-12">' +
+          '<div class="challenges-row col-md-12"></div>' +
+          "</div>" +
+          "</div>"
+      );
+      categoryrow
+        .find(".category-header")
+        .append($("<h3>" + category + "</h3>"));
+
+      $challenges_board.append(categoryrow);
+    }
+
+    // Sort challenges within categories if theme setting is available
+    let sortedChallenges = challenges;
+    try {
+      const f = window.init.theme_settings?.challenge_order;
+      if (f) {
+        const getSort = new Function(`return (${f})`);
+        sortedChallenges = challenges.sort(getSort());
+      }
+    } catch (error) {
+      console.log("Error running challenge_order function");
+      console.log(error);
+    }
+
+    for (let i = 0; i <= sortedChallenges.length - 1; i++) {
+      const chalinfo = sortedChallenges[i];
       const chalid = chalinfo.name.replace(/ /g, "-").hashCode();
       const catid = chalinfo.category.replace(/ /g, "-").hashCode();
       const chalwrap = $(
@@ -358,7 +443,19 @@ function loadChals() {
 }
 
 function update() {
-  return loadChals().then(markSolves);
+  return loadChals().then(markSolves).then(updateProgressBar);
+}
+
+function updateProgressBar() {
+  const solvedCount = challenges.filter(c => c.solved_by_me).length;
+  const totalCount = challenges.length;
+  const percentage = totalCount > 0 ? Math.round((solvedCount / totalCount) * 100) : 0;
+  
+  const progressBar = $("#challenge-progress");
+  progressBar.css("width", percentage + "%");
+  progressBar.attr("aria-valuenow", solvedCount);
+  progressBar.attr("aria-valuemax", totalCount);
+  progressBar.text(`${solvedCount} / ${totalCount} Challenges Solved`);
 }
 
 $(() => {

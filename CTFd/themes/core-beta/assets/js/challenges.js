@@ -97,10 +97,6 @@ Alpine.data("Challenge", () => ({
     return styles;
   },
 
-  async init() {
-    highlight();
-  },
-
   async showChallenge() {
     new Tab(this.$el).show();
   },
@@ -291,7 +287,7 @@ Alpine.data("ChallengeBoard", () => ({
           { once: true },
         );
         modal.show();
-        history.replaceState(null, null, #${challenge.data.name}-${challengeId});
+        history.replaceState(null, null, `#${challenge.data.name}-${challengeId}`);
       });
     });
   },

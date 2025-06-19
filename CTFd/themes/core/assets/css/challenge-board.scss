@@ -26,12 +26,24 @@
 
 .challenge-button {
   box-shadow: 3px 3px 3px grey;
+  transition: all 0.3s ease;
 }
 
 .solved-challenge {
   background-color: #37d63e !important;
   opacity: 0.4;
   border: none;
+}
+
+.incorrect-submission {
+  background-color: #dc3545 !important;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
 }
 
 .corner-button-check {
@@ -43,4 +55,11 @@
 
 .key-submit .btn {
   height: 51px;
+}
+
+#challenge-progress {
+  background-color: #5b7290;
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
 }

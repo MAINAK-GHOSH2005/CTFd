@@ -196,8 +196,7 @@ function renderScoreboard(data) {
   $(".scoreboard-toggle").off().click(toggleAccount);
 }
 
-$(() => {
-  // Initial load of scoreboard data from API
+function updateScoreboard() {
   CTFd.api
     .get_scoreboard()
     .then((response) => {
@@ -216,6 +215,12 @@ $(() => {
         '<tr><td colspan="6" class="text-center text-danger">Error loading scoreboard data.</td></tr>'
       );
     });
+}
+
+$(() => {
+  updateScoreboard();
+
+  setInterval(updateScoreboard, 30000);
 
   // Setup toggle buttons and bulk toggle button
   $(document).on("click", ".scoreboard-toggle", toggleAccount);

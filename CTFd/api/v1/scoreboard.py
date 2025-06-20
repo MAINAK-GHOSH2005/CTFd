@@ -23,7 +23,7 @@ scoreboard_namespace = Namespace(
 class ScoreboardList(Resource):
     @check_account_visibility
     @check_score_visibility
-    @cache.cached(timeout=60, key_prefix=make_cache_key)
+    @cache.cached(timeout=5, key_prefix=make_cache_key)
     def get(self):
         standings = get_standings()
         response = []

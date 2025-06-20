@@ -7,7 +7,7 @@ window.Alpine = Alpine;
 window.CTFd = CTFd;
 
 // Default scoreboard polling interval to every 5 minutes
-const scoreboardUpdateInterval = window.scoreboardUpdateInterval || 300000;
+const scoreboardUpdateInterval = window.scoreboardUpdateInterval || 30000;
 
 Alpine.data("ScoreboardDetail", () => ({
   data: {},

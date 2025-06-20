@@ -52,7 +52,7 @@
         <template x-for="(category, idx) in getCategories()" :key="idx">
           <div class="pt-5">
             <div class="category-header mb-3">
-              <h3 x-text="category"></h3>
+              <h3 x-text="category.display"></h3>
             </div>
 
             <div class="category-challenges d-flex flex-column">
@@ -63,8 +63,8 @@
                         class="challenge-button btn btn-dark w-100 h-100"
                         :class="[
                           c.solved_by_me ? 'challenge-solved' : '',
-                          ...c.tags.map((tag) => `tag-${tag.value.replace(/ /g, '-')}`),
-                        ]"
+                          ...c.tags.map((tag) => tag-${tag.value.replace(/ /g, '-')}),
+                        ];"
                         :value="c.id" @click="loadChallenge(c.id)"
                     >
 

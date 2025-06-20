@@ -97,6 +97,10 @@ Alpine.data("Challenge", () => ({
     return styles;
   },
 
+  async init() {
+    highlight();
+  },
+
   async showChallenge() {
     new Tab(this.$el).show();
   },
@@ -218,50 +222,32 @@ Alpine.data("ChallengeBoard", () => ({
 
   getCategories() {
     const categories = [];
+    const categoryMap = {};
 
     this.challenges.forEach(challenge => {
-      const { category } = challenge;
-
-      if (!categories.includes(category)) {
-        categories.push(category);
+      // Normalize to lower case for grouping
+      const normalized = challenge.category.trim().toLowerCase();
+      if (!categoryMap[normalized]) {
+        categoryMap[normalized] = challenge.category; // Store original for display
+        categories.push(normalized);
       }
     });
 
-    try {
-      const f = CTFd.config.themeSettings.challenge_category_order;
-      if (f) {
-        const getSort = new Function(`return (${f})`);
-        categories.sort(getSort());
-      }
-    } catch (error) {
-      // Ignore errors with theme category sorting
-      console.log("Error running challenge_category_order function");
-      console.log(error);
-    }
+    // Optionally sort categories here
 
-    return categories;
+    // Return array of objects: { key: normalized, display: original }
+    return categories.map(key => ({
+      key,
+      display: categoryMap[key]
+    }));
   },
 
-  getChallenges(category) {
-    let challenges = this.challenges;
-
-    if (category !== null) {
-      challenges = this.challenges.filter(challenge => challenge.category === category);
-    }
-
-    try {
-      const f = CTFd.config.themeSettings.challenge_order;
-      if (f) {
-        const getSort = new Function(`return (${f})`);
-        challenges.sort(getSort());
-      }
-    } catch (error) {
-      // Ignore errors with theme challenge sorting
-      console.log("Error running challenge_order function");
-      console.log(error);
-    }
-
-    return challenges;
+  getChallenges(categoryObj) {
+    if (!categoryObj) return [];
+    const normalized = categoryObj.key;
+    return this.challenges.filter(
+      challenge => challenge.category.trim().toLowerCase() === normalized
+    );
   },
 
   async loadChallenges() {
@@ -287,7 +273,7 @@ Alpine.data("ChallengeBoard", () => ({
           { once: true },
         );
         modal.show();
-        history.replaceState(null, null, `#${challenge.data.name}-${challengeId}`);
+        history.replaceState(null, null, #${challenge.data.name}-${challengeId});
       });
     });
   },

@@ -1,90 +1,220 @@
 # ![](https://github.com/CTFd/CTFd/blob/master/CTFd/themes/core/static/img/logo.png?raw=true)
 
-![CTFd MySQL CI](https://github.com/CTFd/CTFd/workflows/CTFd%20MySQL%20CI/badge.svg?branch=master)
+![Astrarange MySQL CI](https://github.com/CTFd/CTFd/workflows/CTFd%20MySQL%20CI/badge.svg?branch=master)
 ![Linting](https://github.com/CTFd/CTFd/workflows/Linting/badge.svg?branch=master)
 [![MajorLeagueCyber Discourse](https://img.shields.io/discourse/status?server=https%3A%2F%2Fcommunity.majorleaguecyber.org%2F)](https://community.majorleaguecyber.org/)
 [![Documentation Status](https://api.netlify.com/api/v1/badges/6d10883a-77bb-45c1-a003-22ce1284190e/deploy-status)](https://docs.ctfd.io)
 
-## What is CTFd?
+## What is Astrarange?
 
-CTFd is a Capture The Flag framework focusing on ease of use and customizability. It comes with everything you need to run a CTF and it's easy to customize with plugins and themes.
+Astrarange by Astraea is a modern, feature-rich Capture The Flag framework designed for ease of use, security, and extensive customizability. It provides everything you need to run professional CTF competitions with advanced features for both organizers and participants.
 
-![CTFd is a CTF in a can.](https://github.com/CTFd/CTFd/blob/master/CTFd/themes/core/static/img/scoreboard.png?raw=true)
+![Astrarange is a CTF in a can.](https://github.com/CTFd/CTFd/blob/master/CTFd/themes/core/static/img/scoreboard.png?raw=true)
 
-## Features
+## 🚀 Key Features
 
-- Create your own challenges, categories, hints, and flags from the Admin Interface
-  - Dynamic Scoring Challenges
-  - Unlockable challenge support
-  - Challenge plugin architecture to create your own custom challenges
-  - Static & Regex based flags
-    - Custom flag plugins
-  - Unlockable hints
-  - File uploads to the server or an Amazon S3-compatible backend
-  - Limit challenge attempts & hide challenges
-  - Automatic bruteforce protection
-- Individual and Team based competitions
-  - Have users play on their own or form teams to play together
-- Scoreboard with automatic tie resolution
-  - Hide Scores from the public
-  - Freeze Scores at a specific time
-- Scoregraphs comparing the top 10 teams and team progress graphs
-- Markdown content management system
-- SMTP + Mailgun email support
-  - Email confirmation support
-  - Forgot password support
-- Automatic competition starting and ending
-- Team management, hiding, and banning
-- Customize everything using the [plugin](https://docs.ctfd.io/docs/plugins/overview) and [theme](https://docs.ctfd.io/docs/themes/overview) interfaces
-- Importing and Exporting of CTF data for archival
-- And a lot more...
+### 🎯 Challenge Management
+- **Advanced Challenge Types**: Create custom challenges with dynamic scoring, unlockable content, and plugin-based architecture
+- **Flag System**: Support for static flags, regex patterns, and custom flag plugins with custom validation messages
+- **File Management**: Secure file uploads with SHA1 checksums, support for local storage or Amazon S3-compatible backends
+- **Challenge Requirements**: Set prerequisites and dependencies between challenges with anonymized challenge support
+- **Hints System**: Unlockable hints with cost management and freeze-time compatibility
+- **Attempt Limits**: Configure maximum submission attempts with automatic bruteforce protection
+- **Challenge Visibility**: Hide challenges, control visibility based on prerequisites, and manage challenge states
 
-## Install
+### 👥 User & Team Management
+- **Flexible Modes**: Support for both individual and team-based competitions
+- **Scoreboard Brackets**: Create multiple sub-scoreboards within the main scoreboard for different participant categories
+- **User Profiles**: Extended profile fields including affiliation, website, country, and custom fields
+- **Team Management**: Advanced team features with captain designation, member management, and team-specific settings
+- **Account Controls**: Ban, hide, and manage user accounts with comprehensive admin controls
+- **Registration System**: Email verification, registration codes, and domain whitelisting
 
-1. Install dependencies: `pip install -r requirements.txt`
-   1. You can also use the `prepare.sh` script to install system dependencies using apt.
-2. Modify [CTFd/config.ini](https://github.com/CTFd/CTFd/blob/master/CTFd/config.ini) to your liking.
-3. Use `python serve.py` or `flask run` in a terminal to drop into debug mode.
+### 📊 Scoring & Analytics
+- **Dynamic Scoring**: Implement time-based scoring decay and custom scoring algorithms
+- **Advanced Scoreboards**: Real-time scoreboards with automatic tie resolution, bracket filtering, and medal display
+- **Statistics**: Comprehensive analytics including score distributions, solve statistics, and performance metrics
+- **Score Freezing**: Freeze scores at specific times while maintaining challenge functionality
+- **Score Visibility**: Control score visibility for different user roles and competition phases
 
-You can use the auto-generated Docker images with the following command:
+### 🎨 Customization & Theming
+- **Plugin Architecture**: Extensive plugin system for custom challenge types, integrations, and functionality
+- **Theme System**: Multiple themes including core, core-beta, and admin themes with Vite-based asset compilation
+- **Template Customization**: Jinja2-based templating with theme fallback support and custom template overrides
+- **CSS/JS Customization**: Modern asset pipeline with SCSS support and JavaScript module system
+- **Responsive Design**: Mobile-friendly interfaces with Bootstrap-based components
 
-`docker run -p 8000:8000 -it ctfd/ctfd`
+### 🔔 Communication & Notifications
+- **Real-time Notifications**: Server-Sent Events (SSE) based notification system with sound alerts
+- **Social Sharing**: Generate social media links (Twitter, Facebook, LinkedIn) after solving challenges with customizable share pages
+- **Email Integration**: SMTP and Mailgun support with customizable email templates
+- **Announcements**: Admin-controlled announcements and notifications with targeting options
+- **Notification Tracking**: Unread notification counting and notification history management
 
-Or you can use Docker Compose with the following command from the source repository:
+### 🔧 Administration & Management
+- **Comprehensive Admin Panel**: Modern Vue.js-based admin interface with real-time updates
+- **Configuration Management**: Extensive configuration options with environment variable support
+- **Import/Export**: Full CTF data backup and restore functionality with CSV support
+- **Database Management**: Support for SQLite, MySQL, MariaDB, and PostgreSQL with migration system
+- **File Management**: Media library with file upload, download, and management capabilities
+- **User Management**: Bulk user operations, team management, and comprehensive user controls
 
-`docker compose up`
+### 🔒 Security & Infrastructure
+- **Security Features**: CSRF protection, session management, password policies, and secure file downloads
+- **Health Monitoring**: Built-in healthcheck endpoint and debug capabilities
+- **Safe Mode**: Emergency mode to disable plugins for troubleshooting
+- **Reverse Proxy Support**: Full support for nginx and other reverse proxies
+- **Docker Support**: Official Docker images with ARM64 support and docker-compose configuration
+- **Database Security**: Connection pooling, prepared statements, and secure database configurations
+- **HTML Sanitization**: Built-in HTML sanitization for user-generated content
 
-Check out the [CTFd docs](https://docs.ctfd.io/) for [deployment options](https://docs.ctfd.io/docs/deployment/installation) and the [Getting Started](https://docs.ctfd.io/tutorials/getting-started/) guide
+### 🌐 API & Integration
+- **RESTful API**: Comprehensive API v1 with Swagger documentation and filtering capabilities
+- **MajorLeagueCyber Integration**: Single sign-on and event integration with MLC platform
+- **OAuth Support**: OAuth 2.0 integration for external authentication systems
+- **API Rate Limiting**: Built-in rate limiting and API protection
 
-## Live Demo
+### 📱 Modern Web Features
+- **Real-time Updates**: Live scoreboard updates, challenge status, and notification system
+- **Mobile Optimization**: Responsive design optimized for mobile devices
+- **Internationalization**: Multi-language support with translation system
+- **Modern JavaScript**: ES6+ support with modern browser compatibility
 
-https://demo.ctfd.io/
+## 🛠 Installation & Deployment
 
-## Support
+### Quick Start
 
-To get basic support, you can join the [MajorLeagueCyber Community](https://community.majorleaguecyber.org/): [![MajorLeagueCyber Discourse](https://img.shields.io/discourse/status?server=https%3A%2F%2Fcommunity.majorleaguecyber.org%2F)](https://community.majorleaguecyber.org/)
+1. **Install Dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-If you prefer commercial support or have a special project, feel free to [contact us](https://ctfd.io/contact/).
+2. **Configure Astrarange**:
+   - Modify `CTFd/config.ini` to your requirements
+   - Set up database and Redis connections
+   - Configure email settings
 
-## Managed Hosting
+3. **Run Astrarange**:
+   ```bash
+   python serve.py  # Development mode
+   # or
+   flask run        # Production mode
+   ```
 
-Looking to use CTFd but don't want to deal with managing infrastructure? Check out [the CTFd website](https://ctfd.io/) for managed CTFd deployments.
+### Docker Deployment
 
-## MajorLeagueCyber
-
-CTFd is heavily integrated with [MajorLeagueCyber](https://majorleaguecyber.org/). MajorLeagueCyber (MLC) is a CTF stats tracker that provides event scheduling, team tracking, and single sign on for events.
-
-By registering your CTF event with MajorLeagueCyber users can automatically login, track their individual and team scores, submit writeups, and get notifications of important events.
-
-To integrate with MajorLeagueCyber, simply register an account, create an event, and install the client ID and client secret in the relevant portion in `CTFd/config.py` or in the admin panel:
-
-```python
-OAUTH_CLIENT_ID = None
-OAUTH_CLIENT_SECRET = None
+**Simple Docker Run**:
+```bash
+docker run -p 8000:8000 -it ctfd/ctfd
 ```
 
-## Credits
+**Docker Compose** (Recommended):
+```bash
+docker compose up
+```
 
-- Logo by [Laura Barbera](http://www.laurabb.com/)
-- Theme by [Christopher Thompson](https://github.com/breadchris)
-- Notification Sound by [Terrence Martin](https://soundcloud.com/tj-martin-composer)
+The docker-compose setup includes:
+- Astrarange application
+- MariaDB database
+- Redis cache
+- Nginx reverse proxy
+- Persistent data volumes
+
+### Production Deployment
+
+**Environment Variables**:
+```bash
+# Database Configuration
+DATABASE_URL=mysql+pymysql://user:pass@host:port/database
+# or individual settings:
+DATABASE_PROTOCOL=mysql+pymysql
+DATABASE_USER=ctfd
+DATABASE_PASSWORD=secure_password
+DATABASE_HOST=localhost
+DATABASE_PORT=3306
+DATABASE_NAME=ctfd
+
+# Redis Configuration
+REDIS_URL=redis://user:pass@host:port/db
+# or individual settings:
+REDIS_PROTOCOL=redis
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_PASSWORD=secure_password
+REDIS_DB=0
+
+# Security
+SECRET_KEY=your-secret-key-here
+REVERSE_PROXY=true
+
+# Optional Features
+SAFE_MODE=false
+UPDATE_CHECK=true
+SWAGGER_UI=false
+```
+
+**Health Monitoring**:
+- Health check endpoint: `/healthcheck`
+- Debug endpoint: `/debug` (when SAFE_MODE is enabled)
+
+## 📚 Documentation & Resources
+
+- **Official Documentation**: [docs.ctfd.io](https://docs.ctfd.io/)
+- **Getting Started Guide**: [docs.ctfd.io/tutorials/getting-started/](https://docs.ctfd.io/tutorials/getting-started/)
+- **Deployment Guide**: [docs.ctfd.io/docs/deployment/installation](https://docs.ctfd.io/docs/deployment/installation)
+- **Plugin Development**: [docs.ctfd.io/docs/plugins/overview](https://docs.ctfd.io/docs/plugins/overview)
+- **Theme Development**: [docs.ctfd.io/docs/themes/overview](https://docs.ctfd.io/docs/themes/overview)
+
+## 🎯 Live Demo
+
+Experience Astrarange in action: [demo.ctfd.io](https://demo.ctfd.io/)
+
+## 🤝 Support & Community
+
+### Community Support
+- **MajorLeagueCyber Community**: [community.majorleaguecyber.org](https://community.majorleaguecyber.org/)
+- **GitHub Issues**: [github.com/CTFd/CTFd/issues](https://github.com/CTFd/CTFd/issues)
+- **Discussions**: [github.com/CTFd/CTFd/discussions](https://github.com/CTFd/CTFd/discussions)
+
+### Commercial Support
+For enterprise deployments, custom development, or specialized support:
+- **Contact**: [ctfd.io/contact/](https://ctfd.io/contact/)
+- **Managed Hosting**: [ctfd.io](https://ctfd.io/)
+
+## 🌟 MajorLeagueCyber Integration
+
+Astrarange is deeply integrated with [MajorLeagueCyber](https://majorleaguecyber.org/) (MLC), a comprehensive CTF stats tracker that provides:
+
+- **Event Scheduling**: Plan and manage CTF events
+- **Team Tracking**: Track team performance across multiple events
+- **Single Sign-On**: Seamless authentication integration
+- **Statistics**: Comprehensive performance analytics
+- **Community**: Connect with the broader CTF community
+
+To integrate with MajorLeagueCyber:
+1. Register an account at [majorleaguecyber.org](https://majorleaguecyber.org/)
+2. Create an event and obtain your Client ID and Client Secret
+3. Configure the OAuth settings in your Astrarange instance
+
+## 🔄 Version Information
+
+- **Current Version**: 3.7.7
+- **Channel**: Open Source (OSS)
+- **Python Support**: 3.11+
+- **Database Support**: SQLite, MySQL 5.7+, MariaDB 10.11+, PostgreSQL
+- **Browser Support**: Modern browsers with ES6+ support
+
+## 📄 License
+
+Astrarange by Astraea is released under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
+
+## 🙏 Credits
+
+- **Logo**: [Laura Barbera](http://www.laurabb.com/)
+- **Core Theme**: [Christopher Thompson](https://github.com/breadchris)
+- **Notification Sound**: [Terrence Martin](https://soundcloud.com/tj-martin-composer)
+- **Community Contributors**: The amazing Astrarange community of developers, organizers, and users
+
+---
+
+**Astrarange by Astraea** - The most advanced Capture The Flag framework for modern CTF competitions.

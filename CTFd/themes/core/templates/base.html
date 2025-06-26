@@ -53,30 +53,30 @@
 					<a href="admin" class="btn btn-primary btn-lg">Click here to login and setup your CTF</a>
 				</div>
 
-				<div class="row text-center mb-4 g-3">
-					<div class="col-12 col-sm-6 col-md-3">
-						<div class="card h-100 shadow-sm">
-							<div class="card-body">
-								<h6 class="card-title text-muted">Total Challenges</h6>
-								<p id="challenges-count" class="card-text display-6 fw-bold text-nowrap" style="white-space:nowrap;">&nbsp;</p>
-								<script nonce="{{ Session.nonce }}">
-									document.addEventListener('DOMContentLoaded', function () {
-										(async () => {
-											try {
-												const response = await fetch(init.urlRoot + '/api/v1/challenges');
-												const body = await response.json();
-												document.getElementById('challenges-count').textContent = body.data.length;
-											} catch (e) {
-												console.error("Failed to fetch challenge count", e);
-											}
-										})();
-									});
-								</script>
+					<div class="row text-center mb-4 g-3 justify-content-center">
+						<div class="col-12 col-sm-6 col-md-4">
+							<div class="card h-100 shadow-sm">
+								<div class="card-body">
+									<h6 class="card-title text-muted">Total Challenges</h6>
+									<p id="challenges-count" class="card-text display-6 fw-bold text-nowrap" style="white-space:nowrap;">&nbsp;</p>
+									<script nonce="{{ Session.nonce }}">
+										document.addEventListener('DOMContentLoaded', function () {
+											(async () => {
+												try {
+													const response = await fetch(init.urlRoot + '/api/v1/challenges');
+													const body = await response.json();
+													document.getElementById('challenges-count').textContent = body.data.length;
+												} catch (e) {
+													console.error("Failed to fetch challenge count", e);
+												}
+											})();
+										});
+									</script>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col-12 col-sm-6 col-md-3">
-						<div class="card h-100 shadow-sm">
+						<div class="col-12 col-sm-6 col-md-3">
+							<div class="card h-100 shadow-sm">
 							<div class="card-body">
 								<h6 class="card-title text-muted">Total users</h6>
 								<p id="users-count" class="card-text display-6 fw-bold text-nowrap" style="white-space:nowrap;">&nbsp;</p>
@@ -121,14 +121,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-sm-6 col-md-3">
-						<div class="card h-100 shadow-sm">
-							<div class="card-body">
-								<h6 class="card-title text-muted">Monthly Solves</h6>
-								<p class="card-text display-6 fw-bold text-nowrap" style="white-space:nowrap;">1,567</p>
-							</div>
-						</div>
-					</div>
+					
 				</div>
 
 				<div class="card mb-4 shadow-sm">

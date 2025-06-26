@@ -38,7 +38,7 @@
 	<main role="main">
 		{% block content %}
 		<div class="row justify-content-center">
-			<div class="col-md-10 col-lg-8 py-4">
+			<div class="col-md-10 col-lg-12 py-6">
 				<img class="w-100 mx-auto d-block" style="max-width: 320px; padding: 40px 0 20px 0;" src="/files/8da8571a95c3ccc8fd2e1eb1116088e0/logo.png" />
 				<h3 class="text-center mb-2">
 					A cool CTF platform from <a href="https://astraeasolutions.com">astraeasolutions.com</a>
@@ -58,7 +58,20 @@
 						<div class="card h-100 shadow-sm">
 							<div class="card-body">
 								<h6 class="card-title text-muted">Total Challenges</h6>
-								<p class="card-text display-6 fw-bold text-nowrap" style="white-space:nowrap;">72</p>
+								<p id="challenges-count" class="card-text display-6 fw-bold text-nowrap" style="white-space:nowrap;">&nbsp;</p>
+								<script nonce="{{ Session.nonce }}">
+									document.addEventListener('DOMContentLoaded', function () {
+										(async () => {
+											try {
+												const response = await fetch(init.urlRoot + '/api/v1/challenges');
+												const body = await response.json();
+												document.getElementById('challenges-count').textContent = body.data.length;
+											} catch (e) {
+												console.error("Failed to fetch challenge count", e);
+											}
+										})();
+									});
+								</script>
 							</div>
 						</div>
 					</div>
@@ -66,7 +79,20 @@
 						<div class="card h-100 shadow-sm">
 							<div class="card-body">
 								<h6 class="card-title text-muted">Total users</h6>
-								<p class="card-text display-6 fw-bold text-nowrap" style="white-space:nowrap;">23,742</p>
+								<p id="users-count" class="card-text display-6 fw-bold text-nowrap" style="white-space:nowrap;">&nbsp;</p>
+								<script nonce="{{ Session.nonce }}">
+									document.addEventListener('DOMContentLoaded', function () {
+										(async () => {
+											try {
+												const response = await fetch(init.urlRoot + '/api/v1/users');
+												const body = await response.json();
+												document.getElementById('users-count').textContent = body.meta.pagination.total;
+											} catch (e) {
+												console.error("Failed to fetch user count", e);
+											}
+										})();
+									});
+								</script>
 							</div>
 						</div>
 					</div>
@@ -74,7 +100,24 @@
 						<div class="card h-100 shadow-sm">
 							<div class="card-body">
 								<h6 class="card-title text-muted">Total Solves</h6>
-								<p class="card-text display-6 fw-bold text-nowrap" style="white-space:nowrap;">83,761</p>
+								<p id="solves-count" class="card-text display-6 fw-bold text-nowrap" style="white-space:nowrap;">&nbsp;</p>
+								<script nonce="{{ Session.nonce }}">
+									document.addEventListener('DOMContentLoaded', function () {
+										(async () => {
+											try {
+												const response = await fetch(init.urlRoot + '/api/v1/challenges');
+												const body = await response.json();
+												let solves = 0;
+												for (let i = 0; i < body.data.length; i++) {
+													solves += body.data[i].solves;
+												}
+												document.getElementById('solves-count').textContent = solves;
+											} catch (e) {
+												console.error("Failed to fetch solves count", e);
+											}
+										})();
+									});
+								</script>
 							</div>
 						</div>
 					</div>

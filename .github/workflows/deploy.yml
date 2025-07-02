@@ -1,10 +1,9 @@
-# This GitHub Actions workflow deploys CTFd to an EC2 instance using SSH and Docker Compose.
 name: Deploy CTFd to EC2
 
 on:
   push:
     branches:
-      - main
+      - gaurav  # 👈 triggers only when you push to gaurav branch
 
 jobs:
   deploy:
@@ -21,8 +20,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            cd CTFd
-            git pull origin main
+            cd CTFd  # Change if your repo directory is different
+            git pull origin gaurav
             docker compose down
             docker compose up -d --build
-

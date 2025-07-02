@@ -1,9 +1,9 @@
-name: Deploy CTFd to EC2
+name: Auto Deploy to EC2
 
 on:
   push:
     branches:
-      - gaurav  # 👈 triggers only when you push to gaurav branch
+      - gaurav  # 👈 Trigger this on push to your branch
 
 jobs:
   deploy:
@@ -20,7 +20,8 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            cd CTFd  # Change if your repo directory is different
+            cd CTFd || git clone https://github.com/gaurav0973/CTFd.git && cd CTFd
+            git checkout gaurav
             git pull origin gaurav
             docker compose down
             docker compose up -d --build

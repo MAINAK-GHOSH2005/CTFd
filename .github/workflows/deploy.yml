@@ -1,3 +1,4 @@
+# This GitHub Actions workflow deploys CTFd to an EC2 instance using SSH and Docker Compose.
 name: Deploy CTFd to EC2
 
 on:
@@ -24,3 +25,4 @@ jobs:
             git pull origin main
             docker compose down
             docker compose up -d --build
+
